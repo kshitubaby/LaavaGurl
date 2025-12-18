@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Countdown to Our Special Day</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Segoe UI', cursive;
+  background: radial-gradient(circle at top, #ffccd5, #ff758f, #c9184a);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  position: relative;
+}
+
+/* FLOATING HEARTS */
+.heart {
+  position: absolute;
+  color: rgba(255,255,255,0.7);
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(0.6); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1.4); opacity: 0; }
+}
+
+/* IMAGE CORNERS */
+.corner-img {
+  position: absolute;
+  width: 120px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.7);
+}
+
+.top-left { top: 20px; left: 20px; transform: rotate(-10deg); }
+.top-right { top: 20px; right: 20px; transform: rotate(12deg); }
+.bottom-left { bottom: 20px; left: 20px; transform: rotate(8deg); }
+.bottom-right { bottom: 20px; right: 20px; transform: rotate(-12deg); }
+
+/* MAIN CARD */
+.container {
+  position: relative;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(15px);
+  border-radius: 30px;
+  padding: 65px 45px 55px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(255,255,255,0.6);
+  z-index: 2;
+  max-width: 760px;
+}
+
+/* TEXT */
+h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 25px rgba(255,255,255,0.9);
+}
+
+p {
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+/* COUNTDOWN */
+#countdown {
+  font-size: 42px;
+  font-weight: bold;
+  margin: 20px 0 30px;
+  text-shadow: 0 0 25px rgba(255,255,255,1);
+}
+
+/* BUTTON */
+#celebrateBtn {
+  display: none;
+  padding: 16px 38px;
+  font-size: 18px;
+  background: linear-gradient(135deg, #fff, #ffe6eb);
+  color: #c9184a;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(255,255,255,0.8);
+  transition: 0.3s;
+}
+
+#celebrateBtn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 45px rgba(255,255,255,1);
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUTO PLAY MUSIC -->
+<audio id="bgMusic" autoplay loop muted>
+  <source src="D:\O Meri Jaan - Life In A Metro - KK Version - Philip Dilip (Philip D'Lip) (mp3cut.net).mp3" type="audio/mpeg">
+</audio>
+
+<!-- OPTIONAL CORNER IMAGES (replace src) -->
+<img src="C:\Users\DELL\Desktop\WhatsApp Image 2025-12-18 at 4.10.50 PM (1).jpeg" class="corner-img top-left">
+<img src="C:\Users\DELL\Desktop\WhatsApp Image 2025-12-18 at 4.10.50 PM (2).jpeg" class="corner-img top-right">
+<img src="C:\Users\DELL\Desktop\WhatsApp Image 2025-12-18 at 4.10.50 PM.jpeg" class="corner-img bottom-left">
+<img src="C:\Users\DELL\Desktop\WhatsApp Image 2025-12-18 at 4.10.51 PM.jpeg" class="corner-img bottom-right">
+
+<div class="container">
+  <h1>Countdown for Our 1st Year Anniversary</h1>
+  <p>Every day with you feels special, but today is extra magical 💕</p>
+
+  <div id="countdown">Loading...</div>
+
+  <button id="celebrateBtn" onclick="goToPage2()">
+    Click here to celebrate our 1 year 💖
+  </button>
+</div>
+
+<script>
+/* MUSIC AUTOPLAY FIX */
+const music = document.getElementById("bgMusic");
+
+window.addEventListener("load", () => {
+  music.play().catch(() => {});
+});
+
+document.addEventListener("click", () => {
+  music.muted = false;
+  music.play();
+}, { once: true });
+
+/* COUNTDOWN TO 2:40 PM TODAY */
+const countdown = document.getElementById("countdown");
+const btn = document.getElementById("celebrateBtn");
+
+function getTargetTime() {
+  const target = new Date();
+  target.setHours(24, 0, 0, 0); // 2:40 PM today
+  return target;
+}
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const targetTime = getTargetTime().getTime();
+  const diff = targetTime - now;
+
+  if (diff <= 0) {
+    countdown.innerHTML = "💖 It’s Our Moment 💖";
+    btn.style.display = "inline-block";
+    return;
+  }
+
+  const h = Math.floor(diff / (1000 * 60 * 60));
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  countdown.innerHTML = `${h}h ${m}m ${s}s`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* FLOATING HEARTS */
+for (let i = 0; i < 70; i++) {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.fontSize = (18 + Math.random() * 32) + "px";
+  h.style.animationDuration = (4 + Math.random() * 6) + "s";
+  document.body.appendChild(h);
+}
+
+/* PAGE 2 */
+function goToPage2() {
+  window.location.href = "Quiz.html";
+}
+</script>
+
+</body>
+</html>
